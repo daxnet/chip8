@@ -71,5 +71,7 @@ namespace Chip8.Core
         }
 
         internal Memory Memory => _memory;
+
+        internal Graphics Graphics => _graphics;
     }
 }
