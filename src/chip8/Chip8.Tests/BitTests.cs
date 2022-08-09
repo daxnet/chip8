@@ -177,5 +177,21 @@ namespace Chip8.Tests
             Bit b2 = 0;
             Assert.That((b1 ^ b2).Value, Is.EqualTo(0));
         }
+
+        [Test]
+        public void EqualsTest()
+        {
+            Bit b1 = 1;
+            Bit b2 = true;
+            Assert.That(b1 == b2, Is.True);
+        }
+
+        [Test]
+        public void NotEqualsTest()
+        {
+            Bit b1 = 1;
+            Bit b2 = false;
+            Assert.That(b1 != b2, Is.True);
+        }
     }
 }

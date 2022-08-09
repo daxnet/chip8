@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,19 @@ namespace Chip8.Core
 
         public static Bit operator ~(Bit a) => !a;
 
+        public static bool operator ==(Bit a, Bit b) => a.Value == b.Value;
 
+        public static bool operator !=(Bit a, Bit b) => !(a == b);
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Bit bit &&
+                   _value == bit._value;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_value);
+        }
     }
 }

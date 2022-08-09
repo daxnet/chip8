@@ -11,13 +11,24 @@ namespace Chip8.Core
         public const int WIDTH = 64;
         public const int HEIGHT = 32;
 
-        private readonly Bit[,] _gfx = new Bit[WIDTH, HEIGHT];
+        private readonly Bit[,] _buffer = new Bit[WIDTH, HEIGHT];
 
         public void Clear()
         {
             for (var x = 0; x < WIDTH; x++)
                 for (var y = 0; y < HEIGHT; y++)
-                    _gfx[x, y] = 0;
+                    _buffer[x, y] = 0;
         }
+
+        public Bit GetXY(int x, int y) => _buffer[x, y];
+        public void SetXY(int x, int y, Bit value)
+        {
+            if (_buffer[x, y] != value)
+            {
+                _buffer[x, y] = value;
+            }
+        }
+
+
     }
 }

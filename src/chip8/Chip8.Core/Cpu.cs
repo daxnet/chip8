@@ -19,29 +19,29 @@ namespace Chip8.Core
         private readonly Machine _machine;
         private static readonly Random _rnd = new(DateTime.Now.Millisecond);
 
-        private readonly Dictionary<int, Action<int>> _opcodeExecCallbacks;
+        private readonly List<Action<int>> _opcodeExecCallbacks;
 
         public Cpu(Machine machine)
         {
             _machine = machine;
             _opcodeExecCallbacks = new()
             {
-                { 0, OpCode_0 },
-                { 1, OpCode_1 },
-                { 2, OpCode_2 },
-                { 3, OpCode_3 },
-                { 4, OpCode_4 },
-                { 5, OpCode_5 },
-                { 6, OpCode_6 },
-                { 7, OpCode_7 },
-                { 8, OpCode_8 },
-                { 9, OpCode_9 },
-                { 0xa, OpCode_A },
-                { 0xb, OpCode_B },
-                { 0xc, OpCode_C },
-                { 0xd, OpCode_D },
-                { 0xe, OpCode_E },
-                { 0xf, OpCode_F },
+                OpCode_0,
+                OpCode_1,
+                OpCode_2,
+                OpCode_3,
+                OpCode_4,
+                OpCode_5,
+                OpCode_6,
+                OpCode_7,
+                OpCode_8,
+                OpCode_9,
+                OpCode_A,
+                OpCode_B,
+                OpCode_C,
+                OpCode_D,
+                OpCode_E,
+                OpCode_F,
             };
         }
 
@@ -224,7 +224,32 @@ namespace Chip8.Core
 
         private void OpCode_D(int instruction)
         {
+            var rx = (instruction & 0x0f00) >> 8;
+            var ry = (instruction & 0x00f0) >> 4;
+            var height = instruction & 0x000f;
+            byte pixel;
 
+            var x = _v[rx] % Graphics.WIDTH;
+            var y = _v[ry] % Graphics.HEIGHT;
+            _v[0xf] = 0;
+            for (var row = 0; row < height; row++)
+            {
+                pixel = _machine.Memory.Buffer[_i + row];
+                for (var col = 0; col < 8; col++)
+                {
+                    Bit bit = pixel & (0x80 >> col);
+                    if (bit)
+                    {
+                        var valXY = _machine.Graphics.GetXY(x, y);
+                        if (valXY)
+                        {
+                            _v[0xf] = 1;
+                        }
+
+                        _machine.Graphics.SetXY(x, y, valXY ^ 1);
+                    }
+                }
+            }
         }
 
         private void OpCode_E(int instruction)
