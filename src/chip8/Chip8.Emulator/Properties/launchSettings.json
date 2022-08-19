@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Chip8.Emulator": {
+      "commandName": "Project"
+    }
+  }
+}

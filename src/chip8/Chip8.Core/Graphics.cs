@@ -1,17 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace Chip8.Core
 {
     internal sealed class Graphics
     {
-        public const int WIDTH = 64;
+        #region Public Fields
+
         public const int HEIGHT = 32;
+        public const int WIDTH = 64;
+
+        #endregion Public Fields
+
+        #region Private Fields
 
         private readonly Bit[,] _buffer = new Bit[WIDTH, HEIGHT];
+
+        #endregion Private Fields
+
+        #region Public Properties
+
+        public string DebugString
+        {
+            get
+            {
+                var sb = new StringBuilder();
+                for (var x = 0; x < WIDTH; x++)
+                    for (var y = 0; y < HEIGHT; y++)
+                    {
+                        sb.Append(_buffer[x, y].ToString());
+                        if (y == HEIGHT - 1)
+                            sb.Append(Environment.NewLine);
+                    }
+                return sb.ToString();
+            }
+        }
+
+        #endregion Public Properties
+
+        #region Internal Properties
+
+        internal Bit[,] Buffer => _buffer;
+
+        #endregion Internal Properties
+
+        #region Public Methods
 
         public void Clear()
         {
@@ -21,6 +53,7 @@ namespace Chip8.Core
         }
 
         public Bit GetXY(int x, int y) => _buffer[x, y];
+
         public void SetXY(int x, int y, Bit value)
         {
             if (_buffer[x, y] != value)
@@ -29,6 +62,6 @@ namespace Chip8.Core
             }
         }
 
-
+        #endregion Public Methods
     }
 }

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Chip8.Core
+﻿namespace Chip8.Core
 {
     public struct Bit
     {
-        private int _value;
+        #region Private Fields
+
+        private readonly int _value;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public Bit() : this(0)
         { }
@@ -18,29 +17,36 @@ namespace Chip8.Core
 
         public Bit(bool value) => _value = value ? 1 : 0;
 
-        public int Value => _value;
+        #endregion Public Constructors
+
+        #region Public Properties
 
         public bool BoolValue => _value != 0;
+        public int Value => _value;
 
-        public static implicit operator int (Bit bit) => bit._value;
+        #endregion Public Properties
 
-        public static implicit operator Bit(int value) => new (value);
+        #region Public Methods
 
-        public static implicit operator bool (Bit bit) => bit._value == 1;
+        public static implicit operator Bit(int value) => new(value);
 
-        public static implicit operator Bit(bool value) => new (value);
+        public static implicit operator Bit(bool value) => new(value);
+
+        public static implicit operator bool(Bit bit) => bit._value == 1;
+
+        public static implicit operator int(Bit bit) => bit._value;
+
+        public static bool operator !=(Bit a, Bit b) => !(a == b);
 
         public static Bit operator &(Bit a, Bit b) => a._value & b._value;
 
-        public static Bit operator |(Bit a, Bit b) => a._value | b._value;
-
         public static Bit operator ^(Bit a, Bit b) => a._value ^ b._value;
+
+        public static Bit operator |(Bit a, Bit b) => a._value | b._value;
 
         public static Bit operator ~(Bit a) => !a;
 
         public static bool operator ==(Bit a, Bit b) => a.Value == b.Value;
-
-        public static bool operator !=(Bit a, Bit b) => !(a == b);
 
         public override bool Equals(object? obj)
         {
@@ -52,5 +58,9 @@ namespace Chip8.Core
         {
             return HashCode.Combine(_value);
         }
+
+        public override string ToString() => Value.ToString();
+
+        #endregion Public Methods
     }
 }
