@@ -239,20 +239,18 @@
                 {
                     var x = (_v[rx] + col) % Graphics.WIDTH;
                     Bit bit = pixel & (0x80 >> col);
+                    var valXY = _machine.Graphics.GetXY(x, y);
                     if (bit)
                     {
-                        var valXY = _machine.Graphics.GetXY(x, y);
                         if (valXY)
                         {
                             _v[0xf] = 1;
                         }
-
-                        _machine.Graphics.SetXY(x, y, valXY ^ 1);
                     }
+                    _machine.Graphics.SetXY(x, y, valXY ^ bit);
+                    _machine.UpdateGraphics();
                 }
             }
-
-            _machine.UpdateGraphics();
         }
 
         private void OpCode_E(int instruction)

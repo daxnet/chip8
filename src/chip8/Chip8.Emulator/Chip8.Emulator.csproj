@@ -22,6 +22,9 @@
     <None Update="ibm_logo.ch8">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="invaders.ch8">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
